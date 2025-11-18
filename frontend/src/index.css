@@ -1,0 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap');
+
+body {
+  background-color: #fcfcfc; /* Un blanco casi puro para que resalte el amarillo */
+  overflow-x: hidden; /* Para evitar scroll si los circulos se salen */
+}
