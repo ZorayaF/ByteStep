@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import {
   Container, Paper, Stepper, Button, Group, Title, Text,
-  NumberInput, Select, Stack, ThemeIcon, LoadingOverlay, SimpleGrid
+  NumberInput, Select, Stack, ThemeIcon, LoadingOverlay, SimpleGrid,
+  Image as MantineImage
 } from '@mantine/core';
 import { IconUser, IconBulb, IconChartBar, IconCode } from '@tabler/icons-react';
-import { Image as MantineImage } from '@mantine/core';
 import { SkillsSelector } from './SkillsSelector';
 import { ResultsDashboard } from './ResultsDashboard';
 import logoBombillo from '../../assets/bombillo.png';
@@ -12,7 +12,7 @@ import logoBombillo from '../../assets/bombillo.png';
 export default function Advisor() {
   const [activeStep, setActiveStep] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState(null); // Aquí guardaremos la respuesta de la IA
+  const [results, setResults] = useState(null);
 
   const [formData, setFormData] = useState({
     experience: 3,
@@ -35,21 +35,16 @@ export default function Advisor() {
     setLoading(true);
 
     try {
-<<<<<<< HEAD
-      const response = await fetch('https://bytestep.onrender.com', {
-=======
-      // 2. Conexión con tu Backend Python (FastAPI)
-      // Asegúrate de que el servidor uvicorn esté corriendo en este puerto
-      const response = await fetch('https://bytestep.onrender.com', {
->>>>>>> 7298cf4e16e27c42e870ce5b8b241dffc9675c56
+      // Conexión con tu Backend Python (FastAPI) en Render
+      // IMPORTANTE: Añadimos '/predict' al final de la URL
+      const response = await fetch('https://bytestep.onrender.com/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          // Convertimos los datos al formato que espera Python
           experience: parseInt(formData.experience),
-          role: formData.role || "Developer, full-stack", // Valor por defecto si está vacío
+          role: formData.role || "Developer, full-stack",
           country: formData.country,
           education: formData.education,
           skills: formData.skills
@@ -60,15 +55,13 @@ export default function Advisor() {
         throw new Error('Error en la conexión con la IA');
       }
 
-
       const realData = await response.json();
-
       setResults(realData);
       nextStep();
 
     } catch (error) {
       console.error("Error:", error);
-      alert("No pudimos conectar con el Asesor IA. \n\n1. Revisa que tengas la terminal del backend abierta.\n2. Revisa que diga 'Uvicorn running'.");
+      alert("No pudimos conectar con el Asesor IA. Intenta nuevamente.");
     } finally {
       setLoading(false);
     }
@@ -82,7 +75,8 @@ export default function Advisor() {
 
   return (
     <Container size="md" py="xl">
-      <Paper shadow="md"
+      <Paper 
+        shadow="md"
         p={40}
         radius="xl"
         style={{
@@ -91,7 +85,6 @@ export default function Advisor() {
           border: '1px solid rgba(0,0,0,0.03)'
         }}
       >
-
         <LoadingOverlay
           visible={loading}
           zIndex={1000}
@@ -100,8 +93,6 @@ export default function Advisor() {
         />
 
         <Stack align="center" gap="xs" mb={40}>
-
-
           <div style={{
             backgroundColor: '#fff9c4',
             padding: '15px',
@@ -114,7 +105,6 @@ export default function Advisor() {
               fit="contain"
             />
           </div>
-
 
           <Title
             order={1}
@@ -136,16 +126,13 @@ export default function Advisor() {
 
         <Stepper active={activeStep} onStepClick={null} color="byteYellow" allowNextStepsSelect={false} size="sm">
 
-
+          {/* PASO 1: PERFIL */}
           <Stepper.Step label="Perfil" description="Datos básicos" icon={<IconUser size={20} />}>
-
             <Stack mt="xl" gap="xl">
-
-
               <Paper
                 p="lg"
                 radius="lg"
-                style={{ backgroundColor: '#fffdec', border: '1px solid #fff59d' }} // Un amarillo crema muy suave
+                style={{ backgroundColor: '#fffdec', border: '1px solid #fff59d' }}
               >
                 <Group>
                   <ThemeIcon size={42} radius="md" color="byteYellow" variant="filled">
@@ -161,7 +148,6 @@ export default function Advisor() {
               </Paper>
 
               <Stack gap="lg">
-
                 <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg">
                   <NumberInput
                     label="Años de Experiencia"
@@ -170,8 +156,6 @@ export default function Advisor() {
                     value={formData.experience}
                     onChange={(val) => setFormData({ ...formData, experience: val })}
                     min={0} max={50}
-
-
                     size="lg"
                     radius="md"
                     variant="filled"
@@ -187,7 +171,6 @@ export default function Advisor() {
                     data={['No degree', 'Associate degree', 'Bachelor’s degree', 'Master’s degree', 'Professional degree (PhD)']}
                     value={formData.education}
                     onChange={(val) => setFormData({ ...formData, education: val })}
-
                     size="lg"
                     radius="md"
                     variant="filled"
@@ -199,7 +182,6 @@ export default function Advisor() {
                   />
                 </SimpleGrid>
 
-                {/* Fila 2: Rol */}
                 <Select
                   label="Rol Actual / Deseado"
                   placeholder="Selecciona tu perfil principal"
@@ -207,7 +189,6 @@ export default function Advisor() {
                   data={['Developer, back-end', 'Developer, full-stack', 'Developer, front-end', 'DevOps specialist', 'Data scientist', 'Engineering manager']}
                   value={formData.role}
                   onChange={(val) => setFormData({ ...formData, role: val })}
-
                   size="lg"
                   radius="md"
                   variant="filled"
@@ -218,7 +199,6 @@ export default function Advisor() {
                   }}
                 />
 
-
                 <Select
                   label="País de Residencia"
                   placeholder="¿Dónde trabajas actualmente?"
@@ -226,7 +206,6 @@ export default function Advisor() {
                   data={['United States of America', 'Germany', 'Spain', 'Brazil', 'India', 'Canada']}
                   value={formData.country}
                   onChange={(val) => setFormData({ ...formData, country: val })}
-
                   size="lg"
                   radius="md"
                   variant="filled"
@@ -237,11 +216,10 @@ export default function Advisor() {
                   }}
                 />
               </Stack>
-
             </Stack>
           </Stepper.Step>
 
-
+          {/* PASO 2: HABILIDADES */}
           <Stepper.Step label="Habilidades" description="Tu stack técnico" icon={<IconCode size={18} />}>
             <Stack mt="lg">
               <Title order={4}>Define tu Stack Tecnológico</Title>
@@ -252,7 +230,7 @@ export default function Advisor() {
             </Stack>
           </Stepper.Step>
 
-
+          {/* PASO 3: RESULTADOS */}
           <Stepper.Step label="Análisis" description="Resultados IA" icon={<IconChartBar size={18} />}>
             {results && (
               <ResultsDashboard results={results} onReset={handleReset} />
@@ -261,7 +239,7 @@ export default function Advisor() {
 
         </Stepper>
 
-
+        {/* BOTONES DE NAVEGACIÓN */}
         {activeStep < 2 && (
           <Group justify="center" mt="xl">
             {activeStep > 0 && (
