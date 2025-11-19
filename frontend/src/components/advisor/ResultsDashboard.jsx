@@ -7,7 +7,7 @@ import {
   IconCurrencyDollar, IconRocket, IconChartBar, 
   IconRefresh, IconInfoCircle, IconTrophy
 } from '@tabler/icons-react';
-import CountUp from 'react-countup'; // <--- IMPORTANTE: LA NUEVA LIBRERÍA
+import CountUp from 'react-countup';
 
 export function ResultsDashboard({ results, onReset }) {
   
@@ -105,7 +105,7 @@ export function ResultsDashboard({ results, onReset }) {
               size={320}
               thickness={30}
               roundCaps
-              // Animamos el anillo progresivamente
+              
               sections={[
                 { value: progressValue, color: 'byteYellow', tooltip: 'Tu nivel actual' },
                 { value: 100 - progressValue, color: 'rgba(255,255,255,0.1)', tooltip: 'Potencial restante' },
@@ -122,7 +122,6 @@ export function ResultsDashboard({ results, onReset }) {
                       fontFamily: 'Poppins, sans-serif' 
                     }}
                   >
-                    {/* CONTADOR ANIMADO DE DINERO */}
                     $<CountUp end={currentSalary} separator="." duration={2} />
                   </Title>
                 </Stack>
@@ -137,7 +136,7 @@ export function ResultsDashboard({ results, onReset }) {
           </Paper>
         </Grid.Col>
 
-        {/* DERECHA: ESTADÍSTICAS (Delay 0.3s) */}
+      
         <Grid.Col span={{ base: 12, md: 7 }}>
           <Stack h="100%" justify="center">
             

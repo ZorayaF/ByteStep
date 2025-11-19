@@ -5,7 +5,7 @@ import joblib
 import pandas as pd
 import numpy as np
 import os
-import random # <--- Necesario para la variedad
+import random 
 
 # --- 1. CONFIGURACIÓN INICIAL ---
 app = FastAPI(title="API Asesor Salarial IA")

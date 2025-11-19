@@ -9,7 +9,6 @@ const theme = createTheme({
   fontFamily: 'Poppins, sans-serif',
   headings: { fontFamily: 'Poppins, sans-serif' }, 
   // 2. Color de Marca (Amarillo ByteStep)
-  // Mantine necesita una escala de 10 colores. He creado una basada en tu imagen.
   colors: {
     byteYellow: [
       "#fffde7", // 0 (más claro)
@@ -18,8 +17,7 @@ const theme = createTheme({
       "#fff176", // 3
       "#ffee58", // 4
       "#ffeb3b", // 5 (Base)
-      "#fdd835", // 6 (Tu amarillo fuerte)
-      "#fbc02d", // 7
+      "#fdd835", // 6 
       "#f9a825", // 8
       "#f57f17", // 9 (más oscuro)
     ],

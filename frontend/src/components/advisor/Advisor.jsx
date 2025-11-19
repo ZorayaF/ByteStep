@@ -1,20 +1,19 @@
 import { useState } from 'react';
-import { 
-  Container, Paper, Stepper, Button, Group, Title, Text, 
+import {
+  Container, Paper, Stepper, Button, Group, Title, Text,
   NumberInput, Select, Stack, ThemeIcon, LoadingOverlay, SimpleGrid
 } from '@mantine/core';
 import { IconUser, IconBulb, IconChartBar, IconCode } from '@tabler/icons-react';
 import { Image as MantineImage } from '@mantine/core';
-// Importamos los sub-componentes
 import { SkillsSelector } from './SkillsSelector';
 import { ResultsDashboard } from './ResultsDashboard';
-import logoBombillo from '../../assets/bombillo.png'; 
+import logoBombillo from '../../assets/bombillo.png';
 
 export default function Advisor() {
   const [activeStep, setActiveStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState(null); // Aquí guardaremos la respuesta de la IA
-  
+
   const [formData, setFormData] = useState({
     experience: 3,
     role: '',
@@ -27,20 +26,15 @@ export default function Advisor() {
   const nextStep = () => setActiveStep((current) => (current < 2 ? current + 1 : current));
   const prevStep = () => setActiveStep((current) => (current > 0 ? current - 1 : current));
 
-  // Simulación de llamada a la API (Fase de Diseño)
- // Reemplaza tu función handleAnalysis actual con esta:
   const handleAnalysis = async () => {
-    // 1. Validación simple
-    if(formData.skills.length === 0) {
+    if (formData.skills.length === 0) {
       alert("Por favor selecciona al menos una habilidad.");
       return;
     }
 
     setLoading(true);
-    
+
     try {
-      // 2. Conexión con tu Backend Python (FastAPI)
-      // Asegúrate de que el servidor uvicorn esté corriendo en este puerto
       const response = await fetch('http://127.0.0.1:8000/predict', {
         method: 'POST',
         headers: {
@@ -60,11 +54,11 @@ export default function Advisor() {
         throw new Error('Error en la conexión con la IA');
       }
 
-      // 3. Recibir los datos reales de la predicción
+
       const realData = await response.json();
-      
-      setResults(realData); // Guardamos la respuesta real
-      nextStep(); // Avanzamos al Dashboard
+
+      setResults(realData);
+      nextStep();
 
     } catch (error) {
       console.error("Error:", error);
@@ -82,47 +76,45 @@ export default function Advisor() {
 
   return (
     <Container size="md" py="xl">
-      {/* Contenedor con efecto Glassmorphism leve */}
-      <Paper shadow="md" // Usamos nuestra sombra suave definida en el tema
-        p={40} 
-        radius="xl" // Bordes extra redondeados
-        style={{ 
-          backgroundColor: '#ffffff', 
+      <Paper shadow="md"
+        p={40}
+        radius="xl"
+        style={{
+          backgroundColor: '#ffffff',
           position: 'relative',
-          border: '1px solid rgba(0,0,0,0.03)' // Borde casi invisible para definición
+          border: '1px solid rgba(0,0,0,0.03)'
         }}
       >
-        
-        {/* Overlay de carga bonito */}
-        <LoadingOverlay 
-          visible={loading} 
-          zIndex={1000} 
-          overlayProps={{ radius: "xl", blur: 3, color: "#ffffff" }} 
-          loaderProps={{ color: 'byteYellow', type: 'oval' }} 
+
+        <LoadingOverlay
+          visible={loading}
+          zIndex={1000}
+          overlayProps={{ radius: "xl", blur: 3, color: "#ffffff" }}
+          loaderProps={{ color: 'byteYellow', type: 'oval' }}
         />
-        {/* --- HEADER DE MARCA BYTESTEP --- */}
+
         <Stack align="center" gap="xs" mb={40}>
-          
-          {/* REEMPLAZAMOS EL ThemeIcon POR TU IMAGEN */}
-          <div style={{ 
-            backgroundColor: '#fff9c4', 
-            padding: '15px', 
-            borderRadius: '50%', 
-            display: 'inline-block' 
+
+
+          <div style={{
+            backgroundColor: '#fff9c4',
+            padding: '15px',
+            borderRadius: '50%',
+            display: 'inline-block'
           }}>
-             <MantineImage 
-               src={logoBombillo} 
-               w={60} // Ancho de 60px (ajusta según necesites)
-               fit="contain"
-             />
+            <MantineImage
+              src={logoBombillo}
+              w={60}
+              fit="contain"
+            />
           </div>
-          
-          {/* Título de Marca (Ahora con fuente Poppins se verá idéntico) */}
-          <Title 
-            order={1} 
-            style={{ 
-              fontSize: '3rem', // Un poco más grande para impacto
-              fontWeight: 800,  // Extra Bold como en tu imagen
+
+
+          <Title
+            order={1}
+            style={{
+              fontSize: '3rem',
+              fontWeight: 800,
               letterSpacing: '-1.5px',
               color: '#212529',
               lineHeight: 1
@@ -130,23 +122,23 @@ export default function Advisor() {
           >
             ByteStep
           </Title>
-          
+
           <Text c="dimmed" size="lg" fw={500}>
             Tu salto inteligente al siguiente nivel profesional
           </Text>
         </Stack>
 
         <Stepper active={activeStep} onStepClick={null} color="byteYellow" allowNextStepsSelect={false} size="sm">
-          
-          {/* PASO 1: PERFIL (VERSIÓN MEJORADA: MÁS COLOR Y TAMAÑO) */}
+
+
           <Stepper.Step label="Perfil" description="Datos básicos" icon={<IconUser size={20} />}>
-            
+
             <Stack mt="xl" gap="xl">
-              
-              {/* 1. TÍTULO Y SUBTÍTULO CON FONDO DE COLOR */}
-              <Paper 
-                p="lg" 
-                radius="lg" 
+
+
+              <Paper
+                p="lg"
+                radius="lg"
                 style={{ backgroundColor: '#fffdec', border: '1px solid #fff59d' }} // Un amarillo crema muy suave
               >
                 <Group>
@@ -162,36 +154,34 @@ export default function Advisor() {
                 </Group>
               </Paper>
 
-              {/* 2. FORMULARIO "BIG & BOLD" */}
               <Stack gap="lg">
-                
-                {/* Fila 1: Experiencia y Educación */}
+
                 <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg">
                   <NumberInput
                     label="Años de Experiencia"
                     description="Tiempo trabajando profesionalmente"
                     placeholder="Ej: 3"
                     value={formData.experience}
-                    onChange={(val) => setFormData({...formData, experience: val})}
+                    onChange={(val) => setFormData({ ...formData, experience: val })}
                     min={0} max={50}
-                    
-                    // ESTILOS NUEVOS: GRANDE Y RELLENO
-                    size="lg" 
+
+
+                    size="lg"
                     radius="md"
-                    variant="filled" 
+                    variant="filled"
                     styles={{
-                      input: { backgroundColor: '#f1f3f5', fontWeight: 600 }, // Fondo gris suave
+                      input: { backgroundColor: '#f1f3f5', fontWeight: 600 },
                       label: { fontSize: '1.1rem', marginBottom: 6 }
                     }}
                   />
-                  
+
                   <Select
                     label="Nivel Educativo"
                     description="Tu grado académico más alto"
                     data={['No degree', 'Associate degree', 'Bachelor’s degree', 'Master’s degree', 'Professional degree (PhD)']}
                     value={formData.education}
-                    onChange={(val) => setFormData({...formData, education: val})}
-                    
+                    onChange={(val) => setFormData({ ...formData, education: val })}
+
                     size="lg"
                     radius="md"
                     variant="filled"
@@ -210,8 +200,8 @@ export default function Advisor() {
                   searchable
                   data={['Developer, back-end', 'Developer, full-stack', 'Developer, front-end', 'DevOps specialist', 'Data scientist', 'Engineering manager']}
                   value={formData.role}
-                  onChange={(val) => setFormData({...formData, role: val})}
-                  
+                  onChange={(val) => setFormData({ ...formData, role: val })}
+
                   size="lg"
                   radius="md"
                   variant="filled"
@@ -222,19 +212,19 @@ export default function Advisor() {
                   }}
                 />
 
-                {/* Fila 3: País */}
+
                 <Select
                   label="País de Residencia"
                   placeholder="¿Dónde trabajas actualmente?"
                   searchable
                   data={['United States of America', 'Germany', 'Spain', 'Brazil', 'India', 'Canada']}
                   value={formData.country}
-                  onChange={(val) => setFormData({...formData, country: val})}
-                  
+                  onChange={(val) => setFormData({ ...formData, country: val })}
+
                   size="lg"
                   radius="md"
                   variant="filled"
-                  leftSection={<IconChartBar size={20} />} // O un icono de mapa si tienes
+                  leftSection={<IconChartBar size={20} />}
                   styles={{
                     input: { backgroundColor: '#f1f3f5' },
                     label: { fontSize: '1.1rem', marginBottom: 6 }
@@ -245,34 +235,34 @@ export default function Advisor() {
             </Stack>
           </Stepper.Step>
 
-          {/* PASO 2: HABILIDADES */}
+
           <Stepper.Step label="Habilidades" description="Tu stack técnico" icon={<IconCode size={18} />}>
             <Stack mt="lg">
               <Title order={4}>Define tu Stack Tecnológico</Title>
-              <SkillsSelector 
+              <SkillsSelector
                 selectedSkills={formData.skills}
-                onChange={(newSkills) => setFormData({...formData, skills: newSkills})}
+                onChange={(newSkills) => setFormData({ ...formData, skills: newSkills })}
               />
             </Stack>
           </Stepper.Step>
 
-          {/* PASO 3: RESULTADOS (Ahora conectado al Dashboard) */}
+
           <Stepper.Step label="Análisis" description="Resultados IA" icon={<IconChartBar size={18} />}>
             {results && (
               <ResultsDashboard results={results} onReset={handleReset} />
             )}
           </Stepper.Step>
-          
+
         </Stepper>
 
-        {/* BOTONES DE NAVEGACIÓN (Solo visibles si no estamos en resultados) */}
+
         {activeStep < 2 && (
           <Group justify="center" mt="xl">
             {activeStep > 0 && (
               <Button variant="default" onClick={prevStep}>Atrás</Button>
             )}
-            <Button 
-              color="orange" 
+            <Button
+              color="orange"
               size="md"
               onClick={activeStep === 1 ? handleAnalysis : nextStep}
             >
