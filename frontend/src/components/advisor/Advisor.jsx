@@ -35,7 +35,13 @@ export default function Advisor() {
     setLoading(true);
 
     try {
+<<<<<<< HEAD
       const response = await fetch('http://127.0.0.1:8000/predict', {
+=======
+      // 2. Conexión con tu Backend Python (FastAPI)
+      // Asegúrate de que el servidor uvicorn esté corriendo en este puerto
+      const response = await fetch('https://bytestep.onrender.com', {
+>>>>>>> 7298cf4e16e27c42e870ce5b8b241dffc9675c56
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
